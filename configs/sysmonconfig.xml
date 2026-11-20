@@ -1,0 +1,25 @@
+﻿<Sysmon schemaversion="4.90">
+  <HashAlgorithms>md5,sha256</HashAlgorithms>
+  <EventFiltering>
+    <!-- Event ID 1: Process Creation -->
+    <ProcessCreate onmatch="exclude">
+      <Image condition="is">C:\Windows\System32\conhost.exe</Image>
+    </ProcessCreate>
+    <!-- Event ID 3: Network Connection -->
+    <NetworkConnect onmatch="include">
+      <Image condition="contains">powershell</Image>
+      <Image condition="contains">cmd.exe</Image>
+      <Image condition="contains">rundll32</Image>
+    </NetworkConnect>
+    <!-- Event ID 11: FileCreate -->
+    <FileCreate onmatch="include">
+      <TargetFilename condition="contains">\Temp\</TargetFilename>
+      <TargetFilename condition="contains">\Downloads\</TargetFilename>
+      <TargetFilename condition="contains">\Desktop\</TargetFilename>
+    </FileCreate>
+    <!-- Event ID 13: RegistryEvent -->
+    <RegistryEvent onmatch="include">
+      <TargetObject condition="contains">\CurrentVersion\Run</TargetObject>
+    </RegistryEvent>
+  </EventFiltering>
+</Sysmon>
